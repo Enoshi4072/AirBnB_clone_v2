@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-# Installng Nginx if not already installed
+# preparing a web server for the deployment of web_static.
 if ! dpkg -l | grep -q nginx; then
     sudo apt-get update
     sudo apt-get -y install nginx
