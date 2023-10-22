@@ -9,9 +9,7 @@ Routes:
 """
 
 from flask import Flask, render_template
-from models import storage
-from models.state import State
-from flask import g
+from models import storage 
 
 app = Flask(__name__)
 
@@ -20,8 +18,7 @@ def states_list():
     """
     Display a list of states
     """
-    states = list(storage.all(State).values())
-    states.sort(key=lambda x: x.name)
+    states = storage.all("State")
     return render_template('7-states_list.html', states=states)
 
 @app.teardown_appcontext
