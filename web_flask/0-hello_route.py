@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from flask import Flask
 """ 
 Starts a Flask web App
