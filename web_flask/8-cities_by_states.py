@@ -20,7 +20,7 @@ def cities_by_states():
 
 # This teardown method ensures that the SQLAlchemy session is closed after each request.
 @app.teardown_appcontext
-def close_db(error):
+def teardown(error):
     storage.close()
 
 
