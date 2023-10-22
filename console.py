@@ -2,7 +2,6 @@
 """ Console Module """
 import cmd
 import sys
-import uuid
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -11,7 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-from datetime import datetime
+
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -74,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] =='}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -115,66 +114,45 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class with given parameters """
+        """ Create an object of any class with given parameters"""
         if not args:
             print("** class name missing **")
             return
 
-        args = args.split()
-        class_name = args[0]
-
+        arg_list = args.split()
+        class_name = arg_list[0]
+    
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
-        # Create a dictionary to hold the parameters
-        params = {}
-        current_datetime = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
-        params['created_at'] = current_datetime
-        params['updated_at'] = current_datetime
+        # Create a dictionary to store the parsed parameters
+        parameters = {}
+        for item in arg_list[1:]:
+            # Split the parameter into key and value
+            key_value = item.split('=')
+            if len(key_value) == 2:
+                key, value = key_value[0], key_value[1]
+                # Remove double quotes and replace underscores with spaces
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1].replace('_', ' ')
+                    # Unescape double quotes inside the value
+                    value = value.replace('\\"', '"')
+                # Check the type of the value
+                if '.' in value:
+                    try:
+                        value = float(value)
+                    except ValueError:
+                        pass
+                else:
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        pass
+                parameters[key] = value
 
-        # Generate a unique id for the new instance
-        params['id'] = str(uuid.uuid4())
-    
-        # Iterate through the remaining arguments to parse parameters
-        for arg in args[1:]:
-            # Split each argument by '=' to get key and value
-            param_parts = arg.split('=')
-        
-            if len(param_parts) != 2:
-                print(f"Invalid parameter: {arg}")
-                continue
-
-            param_name, param_value = param_parts
-        
-            # Handle special cases for string values with quotes
-            if param_value.startswith('"') and param_value.endswith('"'):
-                param_value = param_value[1:-1].replace('_', ' ').replace('\\"', '"')
-
-            # Convert float values
-            if '.' in param_value:
-                try:
-                    param_value = float(param_value)
-                except ValueError:
-                    print(f"Invalid parameter value: {arg}")
-                    continue
-
-            # Convert integer values
-            else:
-                try:
-                    param_value = int(param_value)
-                except ValueError:
-                    print(f"Invalid parameter value: {arg}")
-                    continue
-
-            # Add the parameter to the dictionary
-            if param_name != '__class__':
-                params[param_name] = param_value
-
-        # Create an instance of the class with the given parameters
-        new_instance = HBNBCommand.classes[class_name](**params)
+        new_instance = HBNBCommand.classes[class_name](**parameters)
         new_instance.save()
-
         print(new_instance.id)
 
 
@@ -249,21 +227,21 @@ class HBNBCommand(cmd.Cmd):
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
-    def do_all(self, arg):
+    def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        args = arg.split()
-        if len(args) == 0:
-            all_objs = storage.all()
-        else:
-            try:
-                cls = eval(args[0])
-                all_objs = storage.all(cls)
-            except NameError:
-                all_objs = {}
-                print("** class doesn't exist **")
+        print_list = []
 
-        for obj_id, obj in all_objs.items():
-            print(obj)
+        if args:
+            args = args.split(' ')[0]  # remove possible trailing args
+            if args not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+            for k, v in storage.all(HBNBCommand.classes[args]).items():
+                print_list.append(str(v))
+        else:
+            for k, v in storage.all().items():
+                print_list.append(str(v))
+        print(print_list)
 
     def help_all(self):
         """ Help information for the all command """
