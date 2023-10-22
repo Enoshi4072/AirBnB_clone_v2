@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/3-footer.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/3-header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/4-common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/6-filters.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/10-hbnb_filters.css') }}">
+</head>
+<body>
+    <header class="clearfix">
+        <h1>HBNB 2.0</h1>
+    </header>
+    <div class="filters">
+        <h2>Filters</h2>
+        <div class="popover">
+            <h3>States</h3>
+            <div class="column" id="states">
+                <div class="group">
+                    <input type="checkbox" name="states" id="st_0" />
+                    <label for="st_0">All</label>
+                </div>
+                {% for state in states %}
+                <div class="group">
+                    <input type="checkbox" name="states" id="st_{{ state.id }}" />
+                    <label for="st_{{ state.id }}">{{ state.name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="popover">
+            <h3>Cities</h3>
+            <div class="column" id="cities">
+                <div class="group">
+                    <input type="checkbox" name="cities" id="ct_0" />
+                    <label for="ct_0">All</label>
+                </div>
+                {% for city in cities %}
+                <div class="group">
+                    <input type="checkbox" name="cities" id="ct_{{ city.id }}" />
+                    <label for="ct_{{ city.id }}">{{ city.name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="popover">
+            <h3>Amenities</h3>
+            <div class="column" id="amenities">
+                <div class="group">
+                    <input type="checkbox" name="amenities" id="am_0" />
+                    <label for="am_0">All</label>
+                </div>
+                {% for amenity in amenities %}
+                <div class="group">
+                    <input type="checkbox" name="amenities" id="am_{{ amenity.id }}" />
+                    <label for="am_{{ amenity.id }}">{{ amenity.name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="places">
+        <article>
+            <div class="title_box">
+                <h2>Places</h2>
+                <div class="search_box">
+                    <input type="text" placeholder="Search..." id="search">
+                </div>
+            </div>
+            <div id="places">
+            </div>
+        </article>
+        <aside>
+            <div class="user">
+                <h2>USER</h2>
+                <h3><span id="user_name" data-id="2">fake</span></h3>
+                <input id="new_comment" name="new_comment" style="display:none;">
+                <div class="new">
+                    <input type="text" placeholder="New comment..." name="new_comment" id="new_comment_name">
+                    <input type="button" value="Send" id="send_new_comment">
+                </div>
+                <div class="date" id="updated_at" data-id="2"></div>
+                <div id="logout">
+                    <input type="button" value="Logout">
+                </div>
+            </div>
+            <div class="description_box" id="description">
+                <h2>None</h2>
+                <div class="price_by_night" id="price_by_night">
+                </div>
+                <div class="max_guest" id="max_guest">
+                </div>
+                <div class="number_rooms" id="number_rooms">
+                </div>
+                <div class="number_bathrooms" id="number_bathrooms">
+                </div>
+                <div class="user">
+                </div>
+            </div>
+            <div class="reviews" id="review">
+            </div>
+        </aside>
+    </div>
+    <div class="reviews" id="review">
+    </div>
+</body>
+</html>
