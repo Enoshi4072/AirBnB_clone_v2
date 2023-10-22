@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+"""
+starts a Flask web application listening on 0.0.0.0, port 5000
+Using storage to fetch data from the storage engine
+Loads all cities of a state
+Routes:
+    /hbnb_filters: display a HTML page.
+"""
 
 from flask import Flask, render_template
 from models import storage

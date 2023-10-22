@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 """
-Start a Flask web application with a route to display a list of states from the database
+Start a Flask web application listening on 0.0.0.0, port 5000
+Uses storage for fetching data from the storahe engine
+Routes:
+    /states_list: display a HTML page: (inside the tag BODY
+    H1 tag: “States"
+    UL tag: with the list of all State objects
 """
 
 from flask import Flask, render_template

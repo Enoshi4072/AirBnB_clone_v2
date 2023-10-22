@@ -1,4 +1,12 @@
-#!/usr/bin/env bash
+#!/usr/bin/python3
+"""
+Web App is listening on 0.0.0.0, port 5000
+using storage to fetch data from the storage engine
+Loads all cities of a state
+Routes:
+    /states: display a HTML page:
+    /states/<id>: display a HTML page
+"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State

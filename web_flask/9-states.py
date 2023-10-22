@@ -1,3 +1,11 @@
+#!/usr/bin/python3
+""" 
+web application is listening on 0.0.0.0, port 5000
+using storage to fetch data from the storage engine
+loads all cities of a state
+Routes:
+    /hbnb_filters: display a HTML page like 6-index.html
+"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
